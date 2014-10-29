@@ -1,0 +1,7 @@
+_home:
+    path:     /
+    defaults: { _controller: ACAShopBundle:Default:index }
+
+_add_product:
+    path: /add_product
+    defaults: { _controller: ACAShopBundle:Product:add }
