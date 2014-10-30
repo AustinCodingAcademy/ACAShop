@@ -1,5 +1,6 @@
 <?php
-namespace ACA\ShopBundle\Util;
+
+namespace ACA\ShopBundle\DB;
 
 /**
  * This class is responsible for instantiating objects for us
@@ -9,14 +10,12 @@ namespace ACA\ShopBundle\Util;
  */
 class ShopFactory
 {
-
     /**
      * Singleton instance for database connector object
      *
      * @var DBCommon
      */
     private static $DBCommonInstance;
-
 
     /**
      * Get some configuration properties we need
@@ -26,16 +25,17 @@ class ShopFactory
     public static function getConfig()
     {
         return array(
-            'db_host' => 'localhost',
+            'db_host' => 'aca.local',
             'db_user' => 'root',
-            'db_pass' => 'root', // No database password needed on VM
+            'db_pass' => 'something',
             'db_name' => 'acashop',
-            'db_port' => 8889
+            'db_port' => 3306
         );
     }
 
     /**
      * Get an object that we can use to interact with the database
+     * This is a classic singleton pattern, and it will ensure that we only have one instantiated object from this class per request cycle
      *
      * @return DBCommon
      */
@@ -48,5 +48,6 @@ class ShopFactory
 
             self::$DBCommonInstance = new DBCommon($cfg['db_host'], $cfg['db_user'], $cfg['db_pass'], $cfg['db_name'], $cfg['db_port']);
         }
+        return self::$DBCommonInstance;
     }
 }
