@@ -18,14 +18,13 @@
 
 <body>
 {% block body %}
-    {#{% set currentPath = path(app.request.attributes.get('_route'))|split('/') %}#}
-    {#currentPath: {{ currentPath }}#}
+    {% set currentPath = path(app.request.attributes.get('_route')) %}
     <div class="container">
         <div class="header">
             <ul class="nav nav-pills pull-right" role="tablist">
-                <li role="presentation"><a href="#">Home</a></li>
-                <li role="presentation"><a href="/products">Products</a></li>
-                <li role="presentation"><a href="#">Cart</a></li>
+                <li role="presentation" {% if currentPath == '/' %}class="active"{% endif %}><a href="/">Home</a></li>
+                <li role="presentation" {% if currentPath == '/products' %}class="active"{% endif %}><a href="/products">Products</a></li>
+                <li role="presentation" {% if currentPath == '/cart' %}class="active"{% endif %}><a href="/cart">Cart</a></li>
             </ul>
             <h3 class="text-muted">Project name</h3>
         </div>
@@ -35,7 +34,7 @@
                 <div class="jumbotron">
                     <h1>Jumbotron heading</h1>
                     <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-                    <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+                    <p><a class="btn btn-lg btn-success" href="#" role="button">Do Stuff</a></p>
                 </div>
             {% endblock %}
         </div>

@@ -2,6 +2,14 @@ _home:
     path:     /
     defaults: { _controller: ACAShopBundle:Default:index }
 
+_products:
+    path: /products
+    defaults: { _controller: ACAShopBundle:Products:listing }
+
+_cart:
+    path: /cart
+    defaults: { _controller: ACAShopBundle:Cart:index }
+
 _add_product:
     path: /add_product
     defaults: { _controller: ACAShopBundle:Product:add }
