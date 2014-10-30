@@ -3,18 +3,49 @@
 {% block head %}
 
     <link rel="icon" sizes="16x16" href="{{ asset('favicon.ico') }}"/>
+
+    <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('css/jumbotron-narrow.css') }}"/>
     <link rel="stylesheet" href="{{ asset('css/acashop.css') }}"/>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="{{ asset('js/acashop.js') }}" type="text/javascript"></script>
+
     <title>{% block title %}ACA Shop{% endblock %}</title>
+
 {% endblock %}
 </head>
 
 <body>
 {% block body %}
-    <div class="block">
-        {% block content %}{% endblock %}
-    </div>
+    {#{% set currentPath = path(app.request.attributes.get('_route'))|split('/') %}#}
+    {#currentPath: {{ currentPath }}#}
+    <div class="container">
+        <div class="header">
+            <ul class="nav nav-pills pull-right" role="tablist">
+                <li role="presentation"><a href="#">Home</a></li>
+                <li role="presentation"><a href="/products">Products</a></li>
+                <li role="presentation"><a href="#">Cart</a></li>
+            </ul>
+            <h3 class="text-muted">Project name</h3>
+        </div>
+
+        <div class="block">
+            {% block content %}
+                <div class="jumbotron">
+                    <h1>Jumbotron heading</h1>
+                    <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+                    <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+                </div>
+            {% endblock %}
+        </div>
+
+        <div class="footer">
+            <p>&copy; ACAShop 2014</p>
+        </div>
+
+    </div> <!-- /container -->
+
 {% endblock %}
 </body>
 
