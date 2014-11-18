@@ -68,7 +68,7 @@ class DBCommon
     public function query()
     {
         $result = $this->mysqli->query($this->getQuery());
-        if ($result) {
+        if ($result && isset($result->num_rows)) {
             $this->numRows = $result->num_rows;
         }
         return $result;
@@ -83,7 +83,7 @@ class DBCommon
     {
         $result = $this->query();
         $result = $result->fetch_array();
-        if($result){
+        if ($result) {
             return $result[0];
         }
         return null;
@@ -91,13 +91,19 @@ class DBCommon
 
     /**
      * Get one record from the database
+     *
      * @return null|stdClass
      */
     public function loadObject()
     {
         $result = $this->query();
-        $obj = $result->fetch_object();
-        if($obj){
+        if($result && is_object($result)){
+            $obj = $result->fetch_object();
+        }else{
+            pre($result, 'loadObject()->result');
+        }
+
+        if ($obj) {
             return $obj;
         }
         return null;
@@ -105,16 +111,30 @@ class DBCommon
 
     /**
      * Get a number of rows from the db
+     *
      * @return stdClass[]
      */
     public function loadObjectList()
     {
         $result = $this->query();
+        if(!$result || !is_object($result)){
+            echo 'query::'.$this->getQuery();
+        }
         $return = [];
-        while($obj = $result->fetch_object()){
+        while ($obj = $result->fetch_object()) {
             $return[] = $obj;
         }
         return $return;
+    }
+
+    /**
+     * Get the last insert id. Only applicable for insert queries
+     *
+     * @return int
+     */
+    public function getLastInsertId()
+    {
+        return $this->mysqli->insert_id;
     }
 
     /**

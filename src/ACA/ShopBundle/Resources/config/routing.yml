@@ -18,6 +18,14 @@ _remove_cart:
     path: /remove_cart
     defaults: { _controller: ACAShopBundle:Cart:remove }
 
+_process_order:
+    path: /process_order
+    defaults: { _controller: ACAShopBundle:Checkout:process }
+
+_display_receipt:
+    path: /receipt
+    defaults: { _controller: ACAShopBundle:Checkout:receipt }
+
 _add_product:
     path: /add_product
     defaults: { _controller: ACAShopBundle:Product:add }

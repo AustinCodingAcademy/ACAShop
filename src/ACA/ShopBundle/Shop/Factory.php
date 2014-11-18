@@ -25,6 +25,7 @@ class Factory
 
     /**
      * Get all products
+     *
      * @return Product[]
      */
     public function getAllProducts()
@@ -38,7 +39,34 @@ class Factory
 
         $productIdRows = $this->db->loadObjectList();
 
-        foreach($productIdRows as $productIdRow){
+        foreach ($productIdRows as $productIdRow) {
+
+            $Product = new Product($productIdRow->product_id);
+            $Product->setDb($this->db);
+            $Product->load();
+
+            array_push($Products, $Product);
+        }
+        return $Products;
+    }
+
+    /**
+     * @param array $productIds Array of all productIds to get
+     *
+     * @return Product[]
+     */
+    public function getSomeProducts($productIds)
+    {
+        /** @var Product[] $Products */
+        $Products = [];
+
+        $query = 'select product_id from aca_product where product_id in(' . implode(',', $productIds) . ')';
+
+        $this->db->setQuery($query);
+
+        $productIdRows = $this->db->loadObjectList();
+
+        foreach ($productIdRows as $productIdRow) {
 
             $Product = new Product($productIdRow->product_id);
             $Product->setDb($this->db);

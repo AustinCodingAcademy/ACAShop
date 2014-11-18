@@ -4,10 +4,11 @@
 
 {% block content %}
 
-    {% if Products %}
+    {% if OrderProducts %}
+        <h3>Thank you for your order</h3>
         <table class="table-striped">
             {% set orderTotal = 0 %}
-            {% for Product in Products %}
+            {% for Product in OrderProducts %}
                 <tr>
 
                     <td width="160px;">
@@ -25,14 +26,6 @@
                         <h4 style="color:palevioletred; font-family: verdana, arial, sans-serif; font-size: 1.3em;">
                             ${{ Product.getPrice()|number_format(2, '.', ',') }}
                         </h4>
-
-                        <br/>
-
-                        <form action="/remove_cart" method="post">
-                            <input type="hidden" name="product_id" value="{{ Product.getProductId() }}"/>
-                            <input type="submit" class="btn btn-danger" value="Remove"/>
-                        </form>
-
                     </td>
 
                 </tr>
@@ -52,14 +45,8 @@
             </tr>
 
         </table>
-        <div class="pull-right">
-            <span>
-                <button class="btn btn-primary" id="btn-continue-shopping">Continue Shopping</button>
-                <button class="btn btn-primary" id="btn-checkout">Checkout</button>
-            </span>
-        </div>
     {% else %}
-        <p class="alert-danger">Please add some products to your cart</p>
+        <p class="alert-danger">Invalid order, or your order has expired!</p>
     {% endif %}
 
 {% endblock %}

@@ -1,4 +1,5 @@
 <?php
+
 namespace ACA\ShopBundle\Shop;
 
 use \Exception as Exception;
