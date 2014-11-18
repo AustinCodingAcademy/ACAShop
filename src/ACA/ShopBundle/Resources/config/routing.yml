@@ -10,6 +10,11 @@ _cart:
     path: /cart
     defaults: { _controller: ACAShopBundle:Cart:index }
 
+_add_to_cart:
+    path: /add_to_cart
+    defaults: { _controller: ACAShopBundle:Cart:add }
+
+    
 _add_product:
     path: /add_product
     defaults: { _controller: ACAShopBundle:Product:add }

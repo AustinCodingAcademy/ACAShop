@@ -4,6 +4,8 @@ namespace ACA\ShopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use ACA\ShopBundle\Shop\Factory;
+
 /**
  * Class ProductsController is responsible for product related functionality
  *
@@ -17,7 +19,16 @@ class ProductsController extends Controller
      */
     public function listingAction()
     {
-        return $this->render('ACAShopBundle:Products:list.html.twig');
+        /** @var Factory $Factory */
+        $Factory = $this->get('factory');
+        $Products = $Factory->getAllProducts();
+
+        return $this->render(
+            'ACAShopBundle:Products:list.html.twig',
+            array(
+                'Products' => $Products
+            )
+        );
     }
 
     /**

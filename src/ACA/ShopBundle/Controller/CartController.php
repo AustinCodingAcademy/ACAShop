@@ -19,4 +19,13 @@ class CartController extends Controller
     {
         return $this->render('ACAShopBundle:Cart:index.html.twig');
     }
+
+    /**
+     * Add a product to the shopping cart
+     */
+    public function addAction()
+    {
+        $productId = $_POST['product_id'];
+        pre($productId, '$productId');
+    }
 }

@@ -5,7 +5,7 @@ date_default_timezone_set('America/Chicago');
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Composer\Autoload\ClassLoader;
 
-function pre($pre, $name)
+function pre($pre, $name = null)
 {
     echo '<h3>' . $name . '</h3>';
     echo '<pre>';

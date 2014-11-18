@@ -1,16 +1,23 @@
 <?php
 namespace ACA\ShopBundle\Shop;
 
-use ACA\ShopBundle\Util\ShopFactory;
+use \Exception as Exception;
 
 class Product
 {
+    /**
+     * Database connection
+     *
+     * @var DBCommon
+     */
+    protected $db;
+
     /**
      * Unique numeric product identifier
      *
      * @var int
      */
-    protected $id;
+    protected $productId;
 
     /**
      * Name of this product
@@ -18,6 +25,20 @@ class Product
      * @var string
      */
     protected $name;
+
+    /**
+     * Description for product
+     *
+     * @var string
+     */
+    protected $description;
+
+    /**
+     * Image URL
+     *
+     * @var string
+     */
+    protected $image;
 
     /**
      * Category this product is in
@@ -33,18 +54,97 @@ class Product
      */
     protected $price;
 
-    public function __construct($id)
+    public function __construct($productId)
     {
-        $this->id = $id;
+        $this->productId = $productId;
     }
 
     /**
-     * Load one product from the database
+     * Load one product from the database and hydrate local properties with data
+     *
+     * @throws Exception
+     * @return bool
      */
     public function load()
     {
+        $query
+            = '
+        select
+            *
+        from
+            aca_product
+        where
+            product_id = "' . $this->productId . '"';
 
-        $db = ShopFactory::getDB();
-        print_r($db);
+        $this->db->setQuery($query);
+        $productObj = $this->db->loadObject();
+
+        if (!empty($productObj)) {
+
+            $this->name = $productObj->name;
+            $this->description = $productObj->description;
+            $this->image = $productObj->image;
+            $this->category = $productObj->category;
+            $this->price = $productObj->price;
+
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @param DBCommon $db
+     */
+    public function setDb($db)
+    {
+        $this->db = $db;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrice()
+    {
+        return $this->price;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProductId()
+    {
+        return $this->productId;
     }
 }

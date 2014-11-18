@@ -1,6 +1,6 @@
 <?php
 
-namespace ACA\ShopBundle\DB;
+namespace ACA\ShopBundle\Shop;
 
 use \Exception as Exception;
 use \mysqli as mysqli;
