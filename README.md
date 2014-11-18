@@ -1,170 +1,157 @@
-Symfony Standard Edition
-========================
+ACAShop - Capstone Project Kickoff
+=======================
+For our capstone project, we will be building an online store called ACAShop. 
+Modern online shoppers have come to expect a certain experience. 
+Here are some of the features we expect our store to have to keep those hard to please shoppers happy: 
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony2
-application that you can use as the skeleton for your new applications.
+#### Home Page
+- We will be using [bootstrap](http://getbootstrap.com/) to layout our ```base.html.twig``` template
+- Create a navigation menu that contains a few links:
+    - ```/``` that is a link to the home page, 
+    - ```/catalog``` which is a link to our product catalog and 
+    - ```/cart``` that will show all the items that the user has added to their cart
+- Create a username and password login box, complete with a route that will handle user authentication
+- We will need a corresponding ```User``` class that will inform the client if the user is valid  
+i.e. in the database or not using a public method called ```isValid()```
 
-This document contains information on how to download, install, and start
-using Symfony. For a more detailed explanation, see the [Installation][1]
-chapter of the Symfony Documentation.
+#### Admin Area
+- Create a route called ```/admin``` and map it to ```AdminController::indexAction()``` also create a corresponding default template
+- The admin area is not secured, neither does it have any special navigation, all we want this to do is allow the admin to add a new product 
+- The fields that we need in order to add a new product are ```name```, ```category```, ```price```, ```picture```
+- Create a table called ```product``` with the corresponding fields contained on the form
+- Allow for the admin to upload a product image, which will get stored in a folder on the server
+- Store the relative location of the image in the ```product.picture``` field e.g ```images/products/baseball-bat.png```
 
-1) Installing the Standard Edition
-----------------------------------
+#### Product listing
+- Create a controller called ```ProductController``` with a default ```indexAction()``` that maps to a ```templates/Product/index.html.twig``` template
+- Write a query to get all products from the database, return an array of ```Product```objects and hand those off to the template
+- Loop through the results, in the template and display your products with an add to cart button 
+- We will need a route ```add_cart``` and a controller ```CartController::addCartAction()``` to handle the adding of products to the user's shopping cart
+- When the user adds an item, the items should be stored in session. All you need to store is the ```product_id``` and the ```quantity``` 
 
-When it comes to installing the Symfony Standard Edition, you have the
-following options.
+#### Shopping Cart
+- The shopping cart should show all the items that the user has added to the cart
+- If there are no items in the cart, display a message to that effect
+- Allow the user to update the quantity of each item
+- Allow the user to remove an item from their cart
+- Create a **Checkout** button that maps to a route called ```/checkout```
 
-### Use Composer (*recommended*)
+#### Checkout
+- For the checkout page lets create a controller called ```CheckoutController```
+- Display two HTML forms with a shipping address and a billing address
+- We are not going to collect any form of payment information
+- Display the order total on the checkout page
+- Create a button called **Place Order** which will map to a route called ```/place_order```
+- If the ```user.shipping_address_id``` field is filled, call the ```Address``` class with this Id as the constructor argument, set the ```address_type``` to *shipping* 
+- Same concept applies for ```user.billing_address_id```
 
-As Symfony uses [Composer][2] to manage its dependencies, the recommended way
-to create a new project is to use it.
+#### Place Order
+- Create a controller called ```OrderController``` and a method called ```placeOrderAction()```
+- The ```placeOrderAction()``` method will give the ```Order``` class the ```Product[]``` i.e. the ```Product``` array
+- Create an ```Address``` class, and create a table called ```address```  
+- The address table and the class will contain a ```address_type``` field, whose values are ```shipping``` or ```billing```
+- Ensure that the shipping and billing options in the table are ```ENUM``` instead of just ```varchar``` or ```char``` values
+- Create a record in the address table, store the ```address``` & ```address_type``` as ```shipping``` retrieve the ID of that record, 
+- Store the Id in ```user.shipping_address_id``` for later retrieval if the user placed another order in the future 
+- The same concept applies to billing address
+- Write order data to the ```order``` table, retrieve the newly created ```order_id``` 
+- Create one record per ```Product``` in the ```order_item``` table
 
-If you don't have Composer yet, download it following the instructions on
-http://getcomposer.org/ or just run the following command:
+### Reporting
+- Create a report to show all sales that were made by all people to date
+- The report should rollup and show total sales
+- Create a filter to allow the user to query a certain date range
 
-    curl -s http://getcomposer.org/installer | php
+#### Footnotes
+- You can either be a lone ranger and work on it yourself, or you can pair up with another person.
+- If you do choose to pair up, we can help you structure your work so its more atomic and create a shared git branch
+- All table names *should* be singular, unless you have a good reason to them it plural
+- All your code *should* be on a branch
+- Make small, frequent and meaningful commits
+- Push changes to GitHub frequently so everyone can see your work; we don't like keeping secrets
+- You are *required* to **document every method you write** using PHP PSR DocBloc conventions
 
-Then, use the `create-project` command to generate a new Symfony application:
 
-    php composer.phar create-project symfony/framework-standard-edition path/to/install
+#### Tables
 
-Composer will install Symfony and all its dependencies under the
-`path/to/install` directory.
+> [aca_user](sql/aca_user.sql) - [[data]](sql/aca_user-data.sql)
 
-### Download an Archive File
+```sql
+mysql> describe aca_user;
++---------------------+------------------+------+-----+-------------------+-----------------------------+
+| Field               | Type             | Null | Key | Default           | Extra                       |
++---------------------+------------------+------+-----+-------------------+-----------------------------+
+| user_id             | int(11) unsigned | NO   | PRI | NULL              | auto_increment              |
+| name                | varchar(100)     | YES  |     | NULL              |                             |
+| username            | varchar(50)      | YES  |     | NULL              |                             |
+| password            | varchar(50)      | YES  |     | NULL              |                             |
+| shipping_address_id | int(10) unsigned | YES  |     | NULL              |                             |
+| billing_address_id  | int(10) unsigned | YES  |     | NULL              |                             |
+| last_login          | timestamp        | YES  |     | CURRENT_TIMESTAMP | on update CURRENT_TIMESTAMP |
++---------------------+------------------+------+-----+-------------------+-----------------------------+
+7 rows in set (0.00 sec)
+```
 
-To quickly test Symfony, you can also download an [archive][3] of the Standard
-Edition and unpack it somewhere under your web server root directory.
+> [aca_address](sql/aca_address.sql) - [[data]](sql/aca_address-data.sql)
+```sql
+mysql> describe aca_address;
++------------+----------------------------+------+-----+-------------------+----------------+
+| Field      | Type                       | Null | Key | Default           | Extra          |
++------------+----------------------------+------+-----+-------------------+----------------+
+| address_id | int(11) unsigned           | NO   | PRI | NULL              | auto_increment |
+| street     | varchar(255)               | YES  |     | NULL              |                |
+| city       | varchar(50)                | YES  |     | NULL              |                |
+| state      | varchar(5)                 | YES  |     | NULL              |                |
+| zip        | int(5)                     | YES  |     | NULL              |                |
+| date_added | timestamp                  | YES  |     | CURRENT_TIMESTAMP |                |
++------------+----------------------------+------+-----+-------------------+----------------+
+7 rows in set (0.00 sec)
+```
 
-If you downloaded an archive "without vendors", you also need to install all
-the necessary dependencies. Download composer (see above) and run the
-following command:
+> [aca_product](sql/aca_product.sql) - [[data]](sql/aca_product-data.sql)
 
-    php composer.phar install
+```sql
+mysql> describe aca_product;
++-------------+------------------+------+-----+-------------------+----------------+
+| Field       | Type             | Null | Key | Default           | Extra          |
++-------------+------------------+------+-----+-------------------+----------------+
+| product_id  | int(11) unsigned | NO   | PRI | NULL              | auto_increment |
+| name        | varchar(255)     | YES  |     | NULL              |                |
+| description | text             | YES  |     | NULL              |                |
+| image       | varchar(255)     | YES  |     | NULL              |                |
+| category    | varchar(50)      | YES  |     | NULL              |                |
+| price       | decimal(5,2)     | YES  |     | NULL              |                |
+| date_added  | timestamp        | YES  |     | CURRENT_TIMESTAMP |                |
++-------------+------------------+------+-----+-------------------+----------------+
+6 rows in set (0.00 sec)
+```
 
-2) Checking your System Configuration
--------------------------------------
+> [aca_order](sql/aca_order.sql)
 
-Before starting coding, make sure that your local system is properly
-configured for Symfony.
+```sql
+mysql> describe aca_order;
++------------+------------------+------+-----+-------------------+----------------+
+| Field      | Type             | Null | Key | Default           | Extra          |
++------------+------------------+------+-----+-------------------+----------------+
+| order_id   | int(11) unsigned | NO   | PRI | NULL              | auto_increment |
+| user_id    | int(11) unsigned | YES  |     | NULL              |                |
+| order_date | timestamp        | YES  |     | CURRENT_TIMESTAMP |                |
++------------+------------------+------+-----+-------------------+----------------+
+3 rows in set (0.00 sec)
+```
 
-Execute the `check.php` script from the command line:
+> [aca_order_product](sql/aca_order_product.sql)
 
-    php app/check.php
-
-The script returns a status code of `0` if all mandatory requirements are met,
-`1` otherwise.
-
-Access the `config.php` script from a browser:
-
-    http://localhost/path-to-project/web/config.php
-
-If you get any warnings or recommendations, fix them before moving on.
-
-3) Browsing the Demo Application
---------------------------------
-
-Congratulations! You're now ready to use Symfony.
-
-From the `config.php` page, click the "Bypass configuration and go to the
-Welcome page" link to load up your first Symfony page.
-
-You can also use a web-based configurator by clicking on the "Configure your
-Symfony Application online" link of the `config.php` page.
-
-To see a real-live Symfony page in action, access the following page:
-
-    web/app_dev.php/demo/hello/Fabien
-
-4) Getting started with Symfony
--------------------------------
-
-This distribution is meant to be the starting point for your Symfony
-applications, but it also contains some sample code that you can learn from
-and play with.
-
-A great way to start learning Symfony is via the [Quick Tour][4], which will
-take you through all the basic features of Symfony2.
-
-Once you're feeling good, you can move onto reading the official
-[Symfony2 book][5].
-
-A default bundle, `AcmeDemoBundle`, shows you Symfony2 in action. After
-playing with it, you can remove it by following these steps:
-
-  * delete the `src/Acme` directory;
-
-  * remove the routing entry referencing AcmeDemoBundle in `app/config/routing_dev.yml`;
-
-  * remove the AcmeDemoBundle from the registered bundles in `app/AppKernel.php`;
-
-  * remove the `web/bundles/acmedemo` directory;
-
-  * empty the `security.yml` file or tweak the security configuration to fit
-    your needs.
-
-What's inside?
----------------
-
-The Symfony Standard Edition is configured with the following defaults:
-
-  * Twig is the only configured template engine;
-
-  * Doctrine ORM/DBAL is configured;
-
-  * Swiftmailer is configured;
-
-  * Annotations for everything are enabled.
-
-It comes pre-configured with the following bundles:
-
-  * **FrameworkBundle** - The core Symfony framework bundle
-
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
-
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
-
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
-
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
-
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
-
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
-
-  * [**AsseticBundle**][12] - Adds support for Assetic, an asset processing
-    library
-
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
-
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
-
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
-
-  * **AcmeDemoBundle** (in dev/test env) - A demo bundle with some example
-    code
-
-All libraries and bundles included in the Symfony Standard Edition are
-released under the MIT or BSD license.
-
-Enjoy!
-
-[1]:  http://symfony.com/doc/2.5/book/installation.html
-[2]:  http://getcomposer.org/
-[3]:  http://symfony.com/download
-[4]:  http://symfony.com/doc/2.5/quick_tour/the_big_picture.html
-[5]:  http://symfony.com/doc/2.5/index.html
-[6]:  http://symfony.com/doc/2.5/bundles/SensioFrameworkExtraBundle/index.html
-[7]:  http://symfony.com/doc/2.5/book/doctrine.html
-[8]:  http://symfony.com/doc/2.5/book/templating.html
-[9]:  http://symfony.com/doc/2.5/book/security.html
-[10]: http://symfony.com/doc/2.5/cookbook/email.html
-[11]: http://symfony.com/doc/2.5/cookbook/logging/monolog.html
-[12]: http://symfony.com/doc/2.5/cookbook/assetic/asset_management.html
-[13]: http://symfony.com/doc/2.5/bundles/SensioGeneratorBundle/index.html
+```sql
+mysql> describe aca_order_product;
++------------------+------------------+------+-----+---------+----------------+
+| Field            | Type             | Null | Key | Default | Extra          |
++------------------+------------------+------+-----+---------+----------------+
+| order_product_id | int(11) unsigned | NO   | PRI | NULL    | auto_increment |
+| order_id         | int(11) unsigned | YES  |     | NULL    |                |
+| product_id       | int(11) unsigned | YES  |     | NULL    |                |
+| quantity         | int(5) unsigned  | YES  |     | NULL    |                |
+| price            | decimal(5,2)     | YES  |     | NULL    |                |
++------------------+------------------+------+-----+---------+----------------+
+5 rows in set (0.00 sec)
+```
