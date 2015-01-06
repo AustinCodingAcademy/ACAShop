@@ -3,7 +3,6 @@
 namespace ACA\ShopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-
 use ACA\ShopBundle\Shop\Factory;
 
 /**
@@ -21,6 +20,8 @@ class ProductsController extends Controller
     {
         /** @var Factory $Factory */
         $Factory = $this->get('factory');
+
+        /** @var Product[] $Products */
         $Products = $Factory->getAllProducts();
 
         return $this->render(

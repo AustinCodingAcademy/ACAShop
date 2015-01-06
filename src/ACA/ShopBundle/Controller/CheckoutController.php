@@ -5,6 +5,7 @@ namespace ACA\ShopBundle\Controller;
 use ACA\ShopBundle\Shop\Order;
 use ACA\ShopBundle\Shop\DBCommon;
 use ACA\ShopBundle\Shop\Factory;
+use ACA\ShopBundle\Shop\Product;
 use ACA\ShopBundle\Shop\OrderComplete;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Session\Session;

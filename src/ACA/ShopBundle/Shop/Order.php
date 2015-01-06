@@ -4,6 +4,7 @@ namespace ACA\ShopBundle\Shop;
 
 use ACA\ShopBundle\Shop\DBCommon;
 use ACA\ShopBundle\Shop\OrderProduct;
+use ACA\ShopBundle\Shop\Product;
 use \Exception as Exception;
 
 class Order

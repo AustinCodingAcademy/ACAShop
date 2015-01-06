@@ -51,11 +51,3 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
-
-services:
-    db:
-        class: ACA\ShopBundle\Shop\DBCommon
-        arguments: ["%database_host%", "%database_user%", "%database_password%", "%database_name%", "%database_port%"]
-    factory:
-        class: ACA\ShopBundle\Shop\Factory
-        arguments: ["@db"]
