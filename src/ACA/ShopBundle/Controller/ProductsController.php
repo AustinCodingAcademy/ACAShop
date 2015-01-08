@@ -2,8 +2,10 @@
 
 namespace ACA\ShopBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use ACA\ShopBundle\Shop\Factory;
+
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class ProductsController is responsible for product related functionality
@@ -14,7 +16,8 @@ class ProductsController extends Controller
 {
     /**
      * Product listing, display all products we have for sale
-     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @return Response
      */
     public function listingAction()
     {
@@ -34,7 +37,8 @@ class ProductsController extends Controller
 
     /**
      * Show the add product form that allows us to add a product to the aca_product table
-     * @return \Symfony\Component\HttpFoundation\Response
+     *
+     * @return Response
      */
     public function addAction()
     {

@@ -7,8 +7,11 @@ use ACA\ShopBundle\Shop\DBCommon;
 use ACA\ShopBundle\Shop\Factory;
 use ACA\ShopBundle\Shop\Product;
 use ACA\ShopBundle\Shop\OrderComplete;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class CartController responsible for displaying and handling all shopping cart related functionality
@@ -18,7 +21,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class CheckoutController extends Controller
 {
     /**
-     * Session object
+     * Session object persists data across requests
+     *
      * @var Session
      */
     protected $Session;
@@ -31,6 +35,8 @@ class CheckoutController extends Controller
 
     /**
      * Process this order
+     *
+     * @return RedirectResponse
      */
     public function processAction()
     {
@@ -62,6 +68,7 @@ class CheckoutController extends Controller
 
     /**
      * Display the receipt
+     * @return Response
      */
     public function receiptAction()
     {
@@ -83,4 +90,3 @@ class CheckoutController extends Controller
         );
     }
 }
-

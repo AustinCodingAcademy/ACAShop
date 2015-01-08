@@ -31,6 +31,7 @@ class DeveloperException extends Exception
      * Log this exception so we can analyze the problem
      * @param string $message Message to log
      * @return void
+     * @todo make this happen
      */
     protected function log($message)
     {

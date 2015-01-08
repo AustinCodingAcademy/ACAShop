@@ -4,8 +4,11 @@ namespace ACA\ShopBundle\Controller;
 
 use ACA\ShopBundle\Shop\Product;
 use ACA\ShopBundle\Shop\DBCommon;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+
+use Symfony\Component\BrowserKit\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
  * Class CartController responsible for displaying and handling all shopping cart related functionality
@@ -16,6 +19,7 @@ class CartController extends Controller
 {
     /**
      * Session object
+     *
      * @var Session
      */
     protected $Session;
@@ -29,6 +33,8 @@ class CartController extends Controller
     /**
      * This method will handle displaying the shopping cart page
      * If there are no items in the cart, we will display a message saying "Cart is empty"
+     *
+     * @return Response
      */
     public function indexAction()
     {
@@ -68,6 +74,8 @@ class CartController extends Controller
 
     /**
      * Add a product to the shopping cart
+     *
+     * @return RedirectResponse
      */
     public function addAction()
     {
@@ -87,6 +95,8 @@ class CartController extends Controller
 
     /**
      * Remove a product from the shopping cart
+     *
+     * @return RedirectResponse
      */
     public function removeAction()
     {

@@ -6,6 +6,11 @@ use ACA\ShopBundle\Shop\DBCommon;
 use ACA\ShopBundle\Shop\OrderProduct;
 use \Exception as Exception;
 
+/**
+ * Class OrderComplete represents all the operations needed to render a completed order
+ *
+ * @package ACA\ShopBundle\Shop
+ */
 class OrderComplete
 {
     /**
@@ -37,7 +42,7 @@ class OrderComplete
     protected $orderTotal = 0.00;
 
     /**
-     * @param int $orderId Newly created order_id
+     * @param int $orderId Existing order_id
      */
     public function __construct($orderId)
     {
