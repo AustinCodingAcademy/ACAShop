@@ -32,13 +32,37 @@ class AppKernel extends Kernel
         $loader->load(__DIR__ . '/config/config_' . $this->getEnvironment() . '.yml');
     }
 
+    /**
+     * @see http://www.whitewashing.de/2013/08/19/speedup_symfony2_on_vagrant_boxes.html
+     * @return string
+     */
     public function getCacheDir()
     {
-        return '/tmp/cache';
+        if(php_sapi_name() == 'cli'){
+            return '/tmp/cache';
+        }
+
+        if (in_array($this->environment, array('dev', 'test'))) {
+            return '/dev/shm/cache/' .  $this->environment;
+        }
+
+        return parent::getCacheDir();
     }
 
+    /**
+     * @see http://www.whitewashing.de/2013/08/19/speedup_symfony2_on_vagrant_boxes.html
+     * @return string
+     */
     public function getLogDir()
     {
-        return '/tmp/logs';
+        if(php_sapi_name() == 'cli'){
+            return '/tmp/logs';
+        }
+
+        if (in_array($this->environment, array('dev', 'test'))) {
+            return '/dev/shm/logs';
+        }
+
+        return parent::getLogDir();
     }
 }
