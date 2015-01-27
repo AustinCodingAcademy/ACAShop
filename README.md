@@ -57,6 +57,10 @@ i.e. in the database or not using a public method called ```isValid()```
 - Write order data to the ```order``` table, retrieve the newly created ```order_id``` 
 - Create one record per ```Product``` in the ```order_item``` table
 
+#### Receipt Page
+- After an order has been placed, redirect them to ```/receipt```
+- Display the customer's name, order date, billing and shipping address, items they purchased and the order total
+
 ### Reporting
 - Create a report to show all sales that were made by all people to date
 - The report should rollup and show total sales
