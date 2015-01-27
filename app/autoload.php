@@ -1,17 +1,10 @@
 <?php
+require(__DIR__ . DIRECTORY_SEPARATOR . 'functions.php');
 
 date_default_timezone_set('America/Chicago');
 
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Composer\Autoload\ClassLoader;
-
-function pre($pre, $name = null)
-{
-    echo '<h3>' . $name . '</h3>';
-    echo '<pre>';
-    print_r($pre);
-    echo '</pre>';
-}
 
 /**
  * @var ClassLoader $loader
