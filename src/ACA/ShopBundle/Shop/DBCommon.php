@@ -43,11 +43,11 @@ class DBCommon
     protected $numRows = 0;
 
     /**
-     * @param string $host     What server is the database located on?
-     * @param string $user     What is the DB user
-     * @param string $pass     What is her password
+     * @param string $host What server is the database located on?
+     * @param string $user What is the DB user
+     * @param string $pass What is her password
      * @param string $database What is the name of the database that we want to query
-     * @param int    $port     What port should we connect to
+     * @param int $port What port should we connect to
      *
      * @throws Exception
      */
@@ -97,9 +97,9 @@ class DBCommon
     public function loadObject()
     {
         $result = $this->query();
-        if($result && is_object($result)){
+        if ($result && is_object($result)) {
             $obj = $result->fetch_object();
-        }else{
+        } else {
             pre($result, 'loadObject()->result');
         }
 
@@ -117,8 +117,8 @@ class DBCommon
     public function loadObjectList()
     {
         $result = $this->query();
-        if(!$result || !is_object($result)){
-            echo 'query::'.$this->getQuery();
+        if (!$result || !is_object($result)) {
+            echo 'query::' . $this->getQuery();
         }
         $return = [];
         while ($obj = $result->fetch_object()) {
@@ -159,5 +159,10 @@ class DBCommon
     public function getNumRows()
     {
         return $this->numRows;
+    }
+
+    public function quote($value)
+    {
+        return $this->mysqli->real_escape_string($value);
     }
 }
