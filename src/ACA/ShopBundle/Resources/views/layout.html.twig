@@ -49,11 +49,13 @@
                         <!-- My Login form -->
                         <form name="loginForm" action="/process_login" method="post">
 
-                            Username: <input type="text" name="username"/>
+                            <label for="username">Username</label>
+                            <input type="text" name="username" class="form-control"/>
 
-                            Password: <input type="text" name="password"/>
+                            <label for="password">Password</label>
+                            <input type="text" name="password" class="form-control"/>
 
-                            <input type="submit" name="Login"/>
+                            <input type="submit" value="Login" class="btn btn-primary"/>
 
                         </form>
                     {% endif %}
