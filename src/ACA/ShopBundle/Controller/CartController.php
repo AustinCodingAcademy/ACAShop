@@ -39,7 +39,7 @@ class CartController extends Controller
     public function indexAction()
     {
         /** @var DBCommon $db */
-        $db = $this->get('db');
+        $db = $this->get('my_db');
 
         /**
          * Array of all productIds added to the shopping cart

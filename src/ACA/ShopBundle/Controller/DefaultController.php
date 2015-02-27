@@ -8,6 +8,17 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('ACAShopBundle:Default:index.html.twig');
+        $session = $this->get('session');
+
+        $loggedIn = $session->get('logged_in');
+        $name = $session->get('name');
+
+        return $this->render(
+            'ACAShopBundle:Default:index.html.twig',
+            array(
+                'loggedIn' => $loggedIn,
+                'name' => $name
+            )
+        );
     }
 }

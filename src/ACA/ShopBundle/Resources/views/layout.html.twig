@@ -32,7 +32,32 @@
         <div class="block">
             {% block content %}
                 <div class="jumbotron">
-                    <h1>Welcome!!</h1>
+
+                    {% if loggedIn %}
+
+                        <!-- You are logged in, show the name -->
+                        <h1>Welcome {{ name }}!!</h1>
+
+                        <form name="logoutForm" action="/logout" method="post">
+                            <input type="submit" name="Logout" value="Logout" class="btn btn-danger"/>
+                        </form>
+
+                    {% else %}
+
+                        <h1>Welcome!!</h1>
+
+                        <!-- My Login form -->
+                        <form name="loginForm" action="/process_login" method="post">
+
+                            Username: <input type="text" name="username"/>
+
+                            Password: <input type="text" name="password"/>
+
+                            <input type="submit" name="Login"/>
+
+                        </form>
+                    {% endif %}
+
                     <p class="lead">Browse our product catalog, add stuff to your shopping cart and checkout!</p>
                     <p><a class="btn btn-lg btn-success" href="/products" role="button">Get Started</a></p>
                 </div>
