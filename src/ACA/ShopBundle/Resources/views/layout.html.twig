@@ -44,7 +44,13 @@
 
                     {% else %}
 
+                        {#Not logged in#}
+
                         <h1>Welcome!!</h1>
+
+                        {% if isError %}
+                            <span class="alert alert-danger">{{ msg }}</span><br/><br/>
+                        {% endif %}
 
                         <!-- My Login form -->
                         <form name="loginForm" action="/process_login" method="post">
