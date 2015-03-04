@@ -29,6 +29,7 @@
                     <br/>
 
                     <form action="/add_cart" method="post">
+                        Qty: <input type="text" name="quantity" size="3" class="form-control"  value="{{ Product.getQuantity() }}"/>
                         <input type="hidden" name="product_id" value="{{ Product.getProductId() }}"/>
                         <input type="submit" class="btn btn-success" value="Add to Cart"/>
                     </form>

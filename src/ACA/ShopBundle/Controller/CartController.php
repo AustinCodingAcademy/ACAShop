@@ -18,19 +18,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 class CartController extends Controller
 {
     /**
-     * Session object
-     *
-     * @var Session
-     */
-    protected $Session;
-
-    public function __construct()
-    {
-        $this->Session = new Session();
-        $this->Session->start();
-    }
-
-    /**
      * This method will handle displaying the shopping cart page
      * If there are no items in the cart, we will display a message saying "Cart is empty"
      *
@@ -41,23 +28,28 @@ class CartController extends Controller
         /** @var DBCommon $db */
         $db = $this->get('db');
 
+        /** @var Session $session */
+        $session = $this->get('session');
+
         /**
          * Array of all productIds added to the shopping cart
          *
          * @var array
          */
-        $cartItems = $this->Session->get('cart_items');
+        $cartItems = $session->get('cart_items');
 
         // Make sure that we have no duplicates
-        $cartItems = !empty($cartItems) ? array_unique($cartItems) : null;
+//        $cartItems = !empty($cartItems) ? array_unique($cartItems) : null;
 
         /** @var Product[] $Products Array of all Product objects added to the user's cart */
         $Products = array();
 
         if (!empty($cartItems)) {
 
-            foreach ($cartItems as $productId) {
-                $Product = new Product($productId);
+            foreach ($cartItems as $cartItem) {
+
+                $Product = new Product($cartItem['productId']);
+                $Product->setQuantity($cartItem['quantity']);
                 $Product->setDb($db);
                 $Product->load();
                 $Products[] = $Product;
@@ -79,16 +71,32 @@ class CartController extends Controller
      */
     public function addAction()
     {
+        /** @var Session $session */
+        $session = $this->get('session');
+
         $productId = $_POST['product_id'];
-        $cartItems = $this->Session->get('cart_items');
+        $quantity = $_POST['quantity'];
+
+        $cartItems = $session->get('cart_items');
 
         if (empty($cartItems)) {
-            $cartItems = array($productId);
+
+            $cartItems = array(
+                array(
+                    'productId' => $productId,
+                    'quantity' => $quantity
+                )
+            );
+
         } else {
-            $cartItems[] = $productId;
+
+            $cartItems[] = array(
+                'productId' => $productId,
+                'quantity' => $quantity
+            );
         }
 
-        $this->Session->set('cart_items', $cartItems);
+        $session->set('cart_items', $cartItems);
 
         return $this->redirect('/cart');
     }
@@ -100,15 +108,19 @@ class CartController extends Controller
      */
     public function removeAction()
     {
+        /** @var Session $session */
+        $session = $this->get('session');
+
         $productId = $_POST['product_id'];
-        $cartItems = $this->Session->get('cart_items');
+        $cartItems = $session->get('cart_items');
 
         foreach ($cartItems as $k => $v) {
             if ($v == $productId) {
                 unset($cartItems[$k]);
             }
         }
-        $this->Session->set('cart_items', $cartItems);
+
+        $session->set('cart_items', $cartItems);
 
         return $this->redirect('/cart');
     }

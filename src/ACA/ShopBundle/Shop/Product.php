@@ -55,6 +55,12 @@ class Product
      */
     protected $price;
 
+    /**
+     * This is the quantity the user wants
+     * @var int
+     */
+    protected $quantity;
+
     public function __construct($productId)
     {
         $this->productId = $productId;
@@ -147,5 +153,21 @@ class Product
     public function getProductId()
     {
         return $this->productId;
+    }
+
+    /**
+     * @return int
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * @param int $quantity
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
     }
 }
