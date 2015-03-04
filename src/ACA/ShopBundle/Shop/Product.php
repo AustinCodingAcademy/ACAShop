@@ -59,7 +59,10 @@ class Product
      * This is the quantity the user wants
      * @var int
      */
-    protected $quantity;
+    protected $quantity = 1;
+
+
+
 
     public function __construct($productId)
     {
@@ -144,7 +147,7 @@ class Product
      */
     public function getPrice()
     {
-        return $this->price;
+        return $this->price * $this->quantity;
     }
 
     /**

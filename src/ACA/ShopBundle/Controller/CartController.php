@@ -38,8 +38,6 @@ class CartController extends Controller
          */
         $cartItems = $session->get('cart_items');
 
-        // Make sure that we have no duplicates
-//        $cartItems = !empty($cartItems) ? array_unique($cartItems) : null;
 
         /** @var Product[] $Products Array of all Product objects added to the user's cart */
         $Products = array();
@@ -52,6 +50,7 @@ class CartController extends Controller
                 $Product->setQuantity($cartItem['quantity']);
                 $Product->setDb($db);
                 $Product->load();
+
                 $Products[] = $Product;
             }
         }
