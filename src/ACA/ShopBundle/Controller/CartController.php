@@ -107,15 +107,17 @@ class CartController extends Controller
      */
     public function removeAction()
     {
-        /** @var Session $session */
+
         $session = $this->get('session');
 
-        $productId = $_POST['product_id'];
         $cartItems = $session->get('cart_items');
 
-        foreach ($cartItems as $k => $v) {
-            if ($v == $productId) {
-                unset($cartItems[$k]);
+        $productId = $_POST['product_id'];
+
+        foreach($cartItems as $index => $cartItem){
+
+            if($cartItem['productId'] == $productId){
+                unset($cartItems[$index]);
             }
         }
 

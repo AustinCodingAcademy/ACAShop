@@ -44,7 +44,8 @@ class LoginService
 
         $query = '
         select
-            user_id, name
+            user_id as uid,
+            name as full_name
         from
             aca_user
         where
@@ -60,8 +61,8 @@ class LoginService
         }
 
         // Assign this data to the local properties
-        $this->userId = $userRow->user_id;
-        $this->fullName = $userRow->name;
+        $this->userId = $userRow->uid;
+        $this->fullName = $userRow->full_name;
 
         return true;
     }

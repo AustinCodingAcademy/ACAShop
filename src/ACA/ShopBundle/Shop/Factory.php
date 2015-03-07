@@ -51,12 +51,19 @@ class Factory
     }
 
     /**
-     * @param array $productIds Array of all productIds to get
+     * @param array $cartItems Array containing productIds and quantity for each item in the cart
      *
      * @return Product[]
      */
-    public function getSomeProducts($productIds)
+    public function getSomeProducts($cartItems)
     {
+        $productIds = array();
+
+        // Extract productIds from the $cartItems array
+        foreach($cartItems as $cartItem){
+            $productIds[] = $cartItem['productId'];
+        }
+
         /** @var Product[] $Products */
         $Products = [];
 
