@@ -15,7 +15,7 @@ class DefaultController extends Controller
         $isError = $session->get('is_error');
         $msg = $session->get('msg');
 
-        return $this->render(
+        return $this->stream(
             'ACAShopBundle:Default:index.html.twig',
             array(
                 'loggedIn' => $loggedIn,

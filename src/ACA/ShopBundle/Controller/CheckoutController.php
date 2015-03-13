@@ -9,6 +9,7 @@ use ACA\ShopBundle\Shop\Product;
 use ACA\ShopBundle\Shop\OrderComplete;
 
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -56,8 +57,6 @@ class CheckoutController extends Controller
         $Order->setProducts($Products);
 
         if ($Order->placeOrder()) {
-            //Clear out cart items in session
-            $this->Session->remove('cart_items');
 
             //Set the newly created orderId in session
             $this->Session->set('order_id', $Order->getOrderId());
@@ -89,4 +88,63 @@ class CheckoutController extends Controller
             )
         );
     }
+
+    public function billingAction()
+    {
+        /** @var DBCommon $db */
+        $db = $this->get('db');
+
+        $session = $this->get('session');
+        $userId = $session->get('user_id');
+
+        $query = '
+        select
+            a.*
+        from
+            aca_user u
+            inner join aca_address a on (u.billing_address_id = a.address_id)
+        where
+            u.user_id = "' . $userId . '"';
+
+        $db->setQuery($query);
+        $billingAddressRow = $db->loadObject();
+
+        return $this->render('ACAShopBundle:Checkout:billing.html.twig',
+            array(
+                'billing' => $billingAddressRow
+            )
+        );
+    }
+
+    public function processBillingAction(Request $request)
+    {
+        try{
+
+            $address = $request->get('address');
+            pre($address, '$address');
+
+            $city = $request->get('city');
+            pre($city, '$city');
+
+            $state = $request->get('state');
+            pre($state, '$state');
+
+            $zip = $request->get('zip');
+            pre($zip, '$zip');
+
+            // Validaate not empty
+
+            // collect these values and create an insert query
+
+            // Insert this into the database
+
+        }catch(\Exception $e){
+
+        }
+
+
+        die();
+
+    }
+
 }

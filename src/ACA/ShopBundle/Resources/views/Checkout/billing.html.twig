@@ -1,0 +1,26 @@
+{% extends 'ACAShopBundle::layout.html.twig' %}
+
+{% block title %}ACA Shop - Shopping Cart{% endblock %}
+
+{% block content %}
+
+    <h2>Billing Form</h2>
+
+    <form action="/process_billing" method="post" id="billing-form">
+
+        Address: <input type="text" name="address" class="form-control" value="{% if billing %}{{ billing.street }}{% endif %}"/>
+        <br/>
+
+        City: <input type="text" name="city" class="form-control" value="{% if billing %}{{ billing.city }}{% endif %}"/>
+        <br/>
+
+        State: <input type="text" name="state" class="form-control" value="{% if billing %}{{ billing.state }}{% endif %}"/>
+        <br/>
+
+        Zip: <input type="text" name="zip" class="form-control" value="{% if billing %}{{ billing.zip }}{% endif %}"/>
+        <br/>
+
+        <button class="btn-primary btn pull-right" id="btn-process-order">Process Order</button>
+    </form>
+
+{% endblock %}

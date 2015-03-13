@@ -37,3 +37,11 @@ _process_login:
 _process_logout:
     path: /logout
     defaults: { _controller: ACAShopBundle:Login:processLogout }
+
+_show_billing:
+    path: /billing
+    defaults: { _controller: ACAShopBundle:Checkout:billing }
+
+_process_billing:
+    path: /process_billing
+    defaults: { _controller: ACAShopBundle:Checkout:processBilling }

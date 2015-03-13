@@ -18,7 +18,6 @@ class LoginController extends Controller
      */
     public function processLoginAction()
     {
-
         /** @var LoginService $loginService */
         $loginService = $this->get('service_login');
 
@@ -38,6 +37,7 @@ class LoginController extends Controller
             }
 
             $session->set('logged_in', true);
+            $session->set('user_id', $loginService->getUserId());
             $session->set('name', $loginService->getFullName());
 
         // If it does, it will end up in this catch block
