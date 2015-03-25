@@ -4,6 +4,9 @@ namespace ACA\ShopBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
+use ACA\ShopBundle\Shop\Test\ChildTable;
+use ACA\ShopBundle\Shop\Test\NephewTable;
+
 class DefaultController extends Controller
 {
     public function indexAction()

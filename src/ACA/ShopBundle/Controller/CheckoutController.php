@@ -118,33 +118,88 @@ class CheckoutController extends Controller
 
     public function processBillingAction(Request $request)
     {
-        try{
+        try {
+
 
             $address = $request->get('address');
-            pre($address, '$address');
-
             $city = $request->get('city');
-            pre($city, '$city');
-
             $state = $request->get('state');
-            pre($state, '$state');
-
             $zip = $request->get('zip');
-            pre($zip, '$zip');
 
-            // Validaate not empty
+            $addressData = array(
+                'street' => $address,
+                'city' => $city,
+                'state' => $state,
+                'zip' => $zip
+            );
 
-            // collect these values and create an insert query
+            $keys = array_keys($addressData);
+            $values = array_values($addressData);
 
-            // Insert this into the database
 
-        }catch(\Exception $e){
+            /** @var DBCommon $db */
+            $db = $this->get('db');
+
+            $session = $this->get('session');
+            $userId = $session->get('user_id');
+
+            $query = '
+            select
+                a.*
+            from
+                aca_user u
+                inner join aca_address a on (u.billing_address_id = a.address_id)
+            where
+                u.user_id = "' . $userId . '"';
+
+            $db->setQuery($query);
+            $billingAddressRow = $db->loadObject();
+
+
+            if (empty($billingAddressRow)) {
+
+                // Insert
+                $query = 'insert into aca_address(' . implode(', ', $keys) . ') values("'.implode('", "', $values).'")';
+
+                $db->setQuery($query);
+                $db->query();
+
+                // get the last inserted id
+                $addressId = $db->getLastInsertId();
+
+                // Now we need to update the user record with the id we just created
+                $query = 'update aca_user set billing_address_id = "'.$addressId.'" where user_id = "'.$userId.'"';
+
+                $db->setQuery($query);
+                $db->query();
+
+            } else {
+
+                // Update
+                $query = 'update aca_address set ';
+
+                foreach ($addressData as $k => $v) {
+                    $query .= $k . ' = "' . $v . '", ';
+                }
+
+                $query = substr($query, 0, -2);
+
+                $query .= ' where address_id = "' . $billingAddressRow->address_id . '"';
+
+                $db->setQuery($query);
+                $db->query();
+            }
+
+
+
+            // ???
+
+            die('??');
+
+
+        } catch (\Exception $e) {
 
         }
-
-
-        die();
-
     }
 
 }
